@@ -1,23 +1,31 @@
-const allInputs = [...document.querySelectorAll('input')];
+const checkboxes = [
+  ...document.querySelectorAll('.item input[type="checkbox"]')
+];
+
 let firstChecked;
-let secondCheckedIndex;
 
-document.addEventListener("keydown", (e) => {
-  if(e.key==='Shift') checkMoreThanOne();
-});
-
-allInputs.forEach(input => input.addEventListener("change", ()=>{
-  firstChecked = allInputs.findIndex(input=> input.checked)
-}))
-
-const checkMoreThanOne = () => {
-  allInputs.forEach((input, index)=>input.addEventListener("change", ()=>{
-    secondCheckedIndex = index;
-    if(firstChecked>=0){
-      for(let i = firstChecked; i<=secondCheckedIndex; i++){
-      allInputs[i].checked = true;
-    }
-    }
+const handleCheck = (e) => {
+  firstChecked = e.target;
+  
+  firstChecked.classList.add("checked");
+  
+  if (e.shiftKey && e.target.checked) {
+    e.target.classList.add("checked");
+    const firstIndex = checkboxes.findIndex((checkbox) =>
+      checkbox.classList.contains("checked")
+    );
+    const lastIndex = checkboxes.findLastIndex((checkbox) =>
+      checkbox.classList.contains("checked")
+    );
     
-  }))
-}
+    checkboxes.forEach((checkbox, index) => {
+      if (index >= firstIndex && index <= lastIndex) {
+        checkbox.checked = true;
+      }
+    });
+  }
+};
+
+checkboxes.forEach((checkbox) =>
+  checkbox.addEventListener("click", handleCheck)
+);

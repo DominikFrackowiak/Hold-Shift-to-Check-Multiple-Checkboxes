@@ -5,9 +5,13 @@ const checkboxes = [
 let firstChecked;
 
 const handleCheck = (e) => {
-  firstChecked = e.target;
-  
-  firstChecked.classList.add("checked");
+  if(e.target.checked){
+    firstChecked = e.target;
+    firstChecked.classList.add("checked");
+  } else {
+    firstChecked.classList.remove("checked");
+    firstChecked = "";
+  }
   
   if (e.shiftKey && e.target.checked) {
     e.target.classList.add("checked");
